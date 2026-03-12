@@ -1,6 +1,6 @@
 # 🎓 Student Marks REST API
 
-Simple REST API built with **FastAPI** to store and retrieve student marks.
+A simple REST API built with FastAPI to store and retrieve student marks.
 
 This project demonstrates:
 
@@ -14,6 +14,8 @@ This project demonstrates:
 ---
 
 # 🚀 Base URL
+
+When running inside GitHub Codespaces your API will look like this:
 
 ```
 https://your-codespace-url-8000.app.github.dev
@@ -43,7 +45,7 @@ Example Response
 
 ```json
 {
-  "students": ["Rahul","Aman","Deepak","Rohit"]
+  "students": ["Rahul", "Aman", "Deepak", "Rohit"]
 }
 ```
 
@@ -86,7 +88,7 @@ Example Response
 ```json
 {
   "name": "Rahul",
-  "subjects": ["Math","Physics","English"]
+  "subjects": ["Math", "Physics", "English"]
 }
 ```
 
@@ -96,7 +98,7 @@ Example Response
 
 ### Leaderboard
 
-Returns all students ranked by average marks.
+Returns all students ranked by **average marks**.
 
 ```
 GET /leaderboard
@@ -154,26 +156,9 @@ Example Response
 
 ---
 
-### Topper
+# ✏ Teacher Operations (Protected)
 
-```
-GET /topper
-```
-
-Example Response
-
-```json
-{
-  "topper": "Rahul",
-  "average_marks": 92.5
-}
-```
-
----
-
-# ✏ Teacher Operations
-
-Teacher endpoints require authentication.
+These endpoints require authentication using a header.
 
 ### Add Marks
 
@@ -213,6 +198,12 @@ Response
 PUT /update_marks
 ```
 
+Header
+
+```
+api-key: teacher123
+```
+
 Body
 
 ```json
@@ -220,6 +211,14 @@ Body
   "name": "Rahul",
   "subject": "Math",
   "marks": 95
+}
+```
+
+Response
+
+```json
+{
+  "message": "Marks updated"
 }
 ```
 
@@ -237,6 +236,12 @@ Example
 DELETE /delete_student/Rahul
 ```
 
+Header
+
+```
+api-key: teacher123
+```
+
 ---
 
 ### Delete Subject
@@ -245,12 +250,19 @@ DELETE /delete_student/Rahul
 DELETE /delete_subject
 ```
 
+Header
+
+```
+api-key: teacher123
+```
+
 Body
 
 ```json
 {
   "name": "Rahul",
-  "subject": "Math"
+  "subject": "Math",
+  "marks": 0
 }
 ```
 
@@ -258,7 +270,7 @@ Body
 
 # 🔐 Authentication
 
-Teacher endpoints require a header:
+Teacher endpoints require the following header:
 
 ```
 api-key: teacher123
@@ -276,9 +288,9 @@ If the key is incorrect the API returns:
 
 # 🗄 Database
 
-The project uses **SQLite**.
+The project uses SQLite.
 
-The database file is created automatically:
+The database file is automatically created:
 
 ```
 database.db
@@ -309,7 +321,7 @@ Swagger documentation:
 /docs
 ```
 
-Example
+Example:
 
 ```
 https://your-api-url/docs
