@@ -4,10 +4,12 @@ Simple REST API built with **FastAPI** to store and retrieve student marks.
 
 This project demonstrates:
 
-* REST API basics
-* Header authentication
-* SQLite database usage
-* Public API testing
+* REST API fundamentals
+* Header-based authentication
+* SQLite database integration
+* Public API testing via GitHub Codespaces
+* CRUD operations
+* Basic analytics (leaderboard and averages)
 
 ---
 
@@ -27,23 +29,165 @@ https://humble-enigma-xxxx-8000.app.github.dev
 
 # 📚 API Endpoints
 
-## 1️⃣ Add Marks (Teacher Only)
+## 🔹 Student Information
 
-Add student marks into the database.
+### Get All Students
 
-### Endpoint
+```
+GET /students
+```
+
+Returns a list of all unique students.
+
+Example Response
+
+```json
+{
+  "students": ["Rahul","Aman","Deepak","Rohit"]
+}
+```
+
+---
+
+### Get Student Marks
+
+```
+GET /marks/{name}
+```
+
+Example
+
+```
+GET /marks/Rahul
+```
+
+Response
+
+```json
+{
+  "name": "Rahul",
+  "marks": [
+    ["Math", 90],
+    ["Physics", 85]
+  ]
+}
+```
+
+---
+
+### Get Student Subjects
+
+```
+GET /subjects/{name}
+```
+
+Example Response
+
+```json
+{
+  "name": "Rahul",
+  "subjects": ["Math","Physics","English"]
+}
+```
+
+---
+
+# 🧮 Analytics Endpoints
+
+### Leaderboard
+
+Returns all students ranked by average marks.
+
+```
+GET /leaderboard
+```
+
+Example Response
+
+```json
+{
+  "leaderboard": [
+    {"name": "Rahul", "average_marks": 92.4},
+    {"name": "Aman", "average_marks": 89.7}
+  ]
+}
+```
+
+---
+
+### Student Average
+
+```
+GET /student/{name}/average
+```
+
+Example
+
+```
+GET /student/Rahul/average
+```
+
+Response
+
+```json
+{
+  "name": "Rahul",
+  "average_marks": 91.3
+}
+```
+
+---
+
+### Class Average
+
+```
+GET /class_average
+```
+
+Example Response
+
+```json
+{
+  "class_average": 84.6
+}
+```
+
+---
+
+### Topper
+
+```
+GET /topper
+```
+
+Example Response
+
+```json
+{
+  "topper": "Rahul",
+  "average_marks": 92.5
+}
+```
+
+---
+
+# ✏ Teacher Operations
+
+Teacher endpoints require authentication.
+
+### Add Marks
 
 ```
 POST /add_marks
 ```
 
-### Headers
+Header
 
 ```
 api-key: teacher123
 ```
 
-### Body
+Body
 
 ```json
 {
@@ -53,29 +197,7 @@ api-key: teacher123
 }
 ```
 
-### Example using Python
-
-```python
-import requests
-
-url = "https://your-api-url/add_marks"
-
-data = {
-    "name": "Rahul",
-    "subject": "Math",
-    "marks": 90
-}
-
-headers = {
-    "api-key": "teacher123"
-}
-
-r = requests.post(url, json=data, headers=headers)
-
-print(r.json())
-```
-
-### Response
+Response
 
 ```json
 {
@@ -85,42 +207,50 @@ print(r.json())
 
 ---
 
-# 2️⃣ Check Student Marks
-
-Students can check their marks.
-
-### Endpoint
+### Update Marks
 
 ```
-GET /marks/{name}
+PUT /update_marks
 ```
 
-### Example
-
-```
-GET /marks/Rahul
-```
-
-### Example using Python
-
-```python
-import requests
-
-url = "https://your-api-url/marks/Rahul"
-
-r = requests.get(url)
-
-print(r.json())
-```
-
-### Response
+Body
 
 ```json
 {
   "name": "Rahul",
-  "marks": [
-    ["Math", 90]
-  ]
+  "subject": "Math",
+  "marks": 95
+}
+```
+
+---
+
+### Delete Student
+
+```
+DELETE /delete_student/{name}
+```
+
+Example
+
+```
+DELETE /delete_student/Rahul
+```
+
+---
+
+### Delete Subject
+
+```
+DELETE /delete_subject
+```
+
+Body
+
+```json
+{
+  "name": "Rahul",
+  "subject": "Math"
 }
 ```
 
@@ -146,9 +276,9 @@ If the key is incorrect the API returns:
 
 # 🗄 Database
 
-This project uses **SQLite**.
+The project uses **SQLite**.
 
-The database file is automatically created:
+The database file is created automatically:
 
 ```
 database.db
@@ -179,7 +309,7 @@ Swagger documentation:
 /docs
 ```
 
-Example:
+Example
 
 ```
 https://your-api-url/docs
@@ -195,7 +325,7 @@ uvicorn
 pydantic
 ```
 
-Install:
+Install dependencies:
 
 ```
 pip install -r requirements.txt
@@ -213,25 +343,34 @@ python3 -m uvicorn api:app --host 0.0.0.0 --port 8000
 
 # 🌍 Public Testing
 
-When running in GitHub Codespaces the API becomes public automatically via forwarded ports.
+When running in **GitHub Codespaces**, the API automatically becomes publicly accessible via forwarded ports.
 
 ---
 
 # 📌 Future Improvements
 
-Possible extensions:
+Possible upgrades:
 
-* Student login system
 * JWT authentication
-* Update marks endpoint
-* Delete student endpoint
-* Leaderboard API
+* Student login system
+* Pagination for leaderboard
 * PostgreSQL database
+* Docker deployment
+* Rate limiting
+* Role-based authentication
 
 ---
 
 # 👨‍💻 Learning Goal
 
-This project is built for learning how real **REST APIs** work.
+This project demonstrates how real backend REST APIs work.
 
-Feel free to fork and extend it.
+Concepts covered:
+
+* API routing
+* HTTP methods (GET, POST, PUT, DELETE)
+* Header authentication
+* Database interaction
+* Data analytics with SQL
+
+Feel free to fork, extend, and experiment with it.
